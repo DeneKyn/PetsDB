@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {    
+    "start": "node ./server/index.js",
+    "server": "nodemon -r dotenv/config ./server/index.js",
+    "client": "npm run start --prefix=./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {    
+    "dotenv": "^9.0.2",        
+    "mongoose": "^5.12.7"    
+  },
+  "devDependencies": {
+    "concurrently": "^6.1.0",
+    "nodemon": "^2.0.7"
+  }
+}
