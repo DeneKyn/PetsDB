@@ -16,7 +16,10 @@
   "license": "ISC",
   "dependencies": {    
     "dotenv": "^9.0.2",        
-    "mongoose": "^5.12.7"    
+    "mongoose": "^5.12.7",
+    "express": "^4.17.1",    
+    "bcrypt": "^5.0.1", 
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "concurrently": "^6.1.0",
