@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   MDBContainer,
   MDBRow,
@@ -9,15 +9,22 @@ import {
 import "./SignIn.css";
 import { useHttp } from "../../hooks/HttpHook";
 import { AuthContext } from "../../context/authContext";
+import { useMessage } from "../../hooks/messageHook";
 
 export const SignInPage = () => {
-  const { request } = useHttp();
   const auth = useContext(AuthContext);
-
+  const message = useMessage();
+  const { request, error, clearError } = useHttp();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    console.log(error);
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };

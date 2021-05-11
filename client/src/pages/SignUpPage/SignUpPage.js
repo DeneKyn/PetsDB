@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MDBContainer,
   MDBRow,
@@ -6,16 +6,25 @@ import {
   MDBBtn,
   MDBValidation,
 } from "mdb-react-ui-kit";
+import { useHistory } from "react-router";
+
 import "./SignUp.css";
 import { useHttp } from "../../hooks/HttpHook";
+import { useMessage } from "../../hooks/messageHook";
 
 export const SignUpPage = () => {
-  const { request } = useHttp();
+  const history = useHistory();
+  const message = useMessage();
+  const { request, error, clearError } = useHttp();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
@@ -26,8 +35,9 @@ export const SignUpPage = () => {
 
     try {
       if (isValid) {
-        const data = await request("/api/auth/signup", "POST", { ...form });
-        console.log(data);
+        await request("/api/auth/signup", "POST", { ...form });
+        history.push("/signin");
+        message("User created successfully", "info");
       }
     } catch (e) {}
   };
