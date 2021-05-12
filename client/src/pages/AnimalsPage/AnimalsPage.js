@@ -6,8 +6,20 @@ import { useHttp } from "../../hooks/HttpHook";
 
 export const AnimalsPage = () => {
   const [animals, setAnimals] = useState([]);
+  const [selectedAnimals, setSelectedAnimals] = useState([]);
   const { request } = useHttp();
   const { token } = useContext(AuthContext);
+
+  const fetchBulkDelete = useCallback(async () => {
+    try {
+      await request(
+        `/api/animals?ids=${selectedAnimals.join(",")}`,
+        "DELETE",
+        null,
+        { Authorization: `Bearer ${token}` }
+      );
+    } catch (e) {}
+  }, [token, request, selectedAnimals]);
 
   const fetchAnimals = useCallback(
     async (searchText = "") => {
@@ -28,12 +40,17 @@ export const AnimalsPage = () => {
     fetchAnimals();
   }, [fetchAnimals]);
 
+  const bulkDeleteHandler = async () => {
+    await fetchBulkDelete();
+    fetchAnimals();
+  };
+
   return (
     <>
-      <MDBContainer className="mt-4">
-        <MDBRow>
+      <MDBContainer>
+        <MDBRow className="mb-4">
           <MDBCol size="2">
-            <MDBBtn>Delete</MDBBtn>
+            <MDBBtn onClick={() => bulkDeleteHandler()}>Delete</MDBBtn>
           </MDBCol>
           <MDBCol size="2"></MDBCol>
           <MDBCol size="4">
@@ -46,10 +63,13 @@ export const AnimalsPage = () => {
             />
           </MDBCol>
         </MDBRow>
-      </MDBContainer>
 
-      <MDBContainer>
-        <AnimalsLinks animals={animals} fetchAnimals={fetchAnimals} />
+        <AnimalsLinks
+          animals={animals}
+          fetchAnimals={fetchAnimals}
+          selectedAnimals={selectedAnimals}
+          setSelectedAnimals={setSelectedAnimals}
+        />
       </MDBContainer>
     </>
   );

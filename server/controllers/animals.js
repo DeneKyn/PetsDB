@@ -80,3 +80,22 @@ export const deleteAnimal = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteAnimals = async (req, res) => {
+  try {
+    const { ids } = req.query;
+    const animalIds = ids.split(",");
+
+    const animals = await Animal.find({ _id: { $in: animalIds } });
+    animals.forEach((animal) => {
+      if (animal.owner != req.user.userId)
+        return res.status(403).json({ message: "Access denied." });
+    });
+
+    await Animal.deleteMany({ _id: { $in: animalIds } });
+
+    res.status(200).json({ message: "Animals removed successfully." });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

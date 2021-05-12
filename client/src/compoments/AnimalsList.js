@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHttp } from "../hooks/HttpHook";
 import { AuthContext } from "../context/authContext";
 import {
@@ -8,9 +8,23 @@ import {
   MDBCheckbox,
 } from "mdb-react-ui-kit";
 
-export const AnimalsLinks = ({ animals, fetchAnimals }) => {
+export const AnimalsLinks = ({
+  animals,
+  fetchAnimals,
+  selectedAnimals,
+  setSelectedAnimals,
+}) => {
   const { token } = useContext(AuthContext);
   const { request } = useHttp();
+
+  const selectAnimalsHandler = (_id) => {
+    const isExist = !!selectedAnimals.find((id) => _id === id);
+    if (isExist) {
+      setSelectedAnimals(selectedAnimals.filter((id) => id !== _id));
+    } else {
+      setSelectedAnimals([...selectedAnimals, _id]);
+    }
+  };
 
   const deleteAnimalHandler = async (animalId) => {
     try {
@@ -39,7 +53,14 @@ export const AnimalsLinks = ({ animals, fetchAnimals }) => {
             return (
               <tr key={animal._id}>
                 <th>
-                  <MDBCheckbox name="checkNoLabel" value="" aria-label="..." />
+                  <MDBCheckbox
+                    name="checkNoLabel"
+                    value=""
+                    aria-label="..."
+                    onChange={() => {
+                      selectAnimalsHandler(animal._id);
+                    }}
+                  />
                 </th>
                 <th>{index + 1}</th>
                 <td>{animal.name}</td>

@@ -6,6 +6,7 @@ import {
   getAnimal,
   updateAnimal,
   deleteAnimal,
+  deleteAnimals,
 } from "../controllers/animals.js";
 import auth from "../middleware/auth.js";
 
@@ -34,5 +35,7 @@ router.patch(
 );
 
 router.delete("/:id", auth, deleteAnimal);
+
+router.delete("/", auth, deleteAnimals);
 
 export default router;
