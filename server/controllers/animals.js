@@ -27,7 +27,11 @@ export const createAnimal = async (req, res) => {
 
 export const getAnimals = async (req, res) => {
   try {
-    const animals = await Animal.find({ owner: req.user.userId });
+    const { searchText = "" } = req.query;
+    const animals = await Animal.find({
+      owner: req.user.userId,
+      name: new RegExp(searchText, "i"),
+    });
     res.json(animals);
   } catch (error) {
     res.status(500).json({ message: error.message });

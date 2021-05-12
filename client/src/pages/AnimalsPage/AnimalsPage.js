@@ -7,6 +7,7 @@ import { useHttp } from "../../hooks/HttpHook";
 export const AnimalsPage = () => {
   const [animals, setAnimals] = useState([]);
   const [selectedAnimals, setSelectedAnimals] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const { request } = useHttp();
   const { token } = useContext(AuthContext);
 
@@ -40,6 +41,12 @@ export const AnimalsPage = () => {
     fetchAnimals();
   }, [fetchAnimals]);
 
+  const searchHandler = (event) => {
+    const text = event.target.value;
+    setSearchText(text);
+    fetchAnimals(text);
+  };
+
   const bulkDeleteHandler = async () => {
     await fetchBulkDelete();
     fetchAnimals();
@@ -55,10 +62,10 @@ export const AnimalsPage = () => {
           <MDBCol size="2"></MDBCol>
           <MDBCol size="4">
             <input
-              // onChange={searchHandler}
+              onChange={searchHandler}
               type="search"
               className="form-control"
-              placeholder="Type query"
+              placeholder="Search pets"
               aria-label="Search"
             />
           </MDBCol>
