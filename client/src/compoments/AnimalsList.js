@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { useHttp } from "../hooks/HttpHook";
 import { AuthContext } from "../context/authContext";
 import {
@@ -7,15 +7,24 @@ import {
   MDBTableBody,
   MDBCheckbox,
 } from "mdb-react-ui-kit";
+import { EditModal } from "../compoments/EditModal.js";
 
 export const AnimalsLinks = ({
   animals,
   fetchAnimals,
   selectedAnimals,
   setSelectedAnimals,
+  searchText,
 }) => {
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
+  const [centredModal, setCentredModal] = useState(false);
   const { token } = useContext(AuthContext);
   const { request } = useHttp();
+
+  const editAnimalHandler = (animal) => {
+    setSelectedAnimal(animal);
+    setCentredModal(!centredModal);
+  };
 
   const selectAnimalsHandler = (_id) => {
     const isExist = !!selectedAnimals.find((id) => _id === id);
@@ -68,6 +77,7 @@ export const AnimalsLinks = ({
                 <td>{animal.age}</td>
                 <td>
                   <i
+                    onClick={() => editAnimalHandler(animal)}
                     className="fas fa-edit"
                     style={{ marginRight: "10px", fontSize: "20px" }}
                   ></i>
@@ -82,6 +92,14 @@ export const AnimalsLinks = ({
           })}
         </MDBTableBody>
       </MDBTable>
+
+      <EditModal
+        isOpen={centredModal}
+        setIsOpen={setCentredModal}
+        selectedAnimal={selectedAnimal}
+        fetchAnimals={fetchAnimals}
+        searchText={searchText}
+      />
     </>
   );
 };

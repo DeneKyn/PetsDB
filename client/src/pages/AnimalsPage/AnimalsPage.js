@@ -76,6 +76,7 @@ export const AnimalsPage = () => {
           fetchAnimals={fetchAnimals}
           selectedAnimals={selectedAnimals}
           setSelectedAnimals={setSelectedAnimals}
+          searchText={searchText}
         />
       </MDBContainer>
     </>
