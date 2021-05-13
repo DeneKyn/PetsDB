@@ -55,7 +55,7 @@ export const AnimalsPage = () => {
   return (
     <>
       <MDBContainer>
-        <MDBRow className="mb-4">
+        <MDBRow className="mb-4 mt-4">
           <MDBCol size="2">
             <MDBBtn onClick={() => bulkDeleteHandler()}>Delete</MDBBtn>
           </MDBCol>

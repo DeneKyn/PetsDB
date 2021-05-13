@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { useRoutes } from "./routes";
 import { AuthContext } from "./context/authContext";
 import { useAuth } from "./hooks/authHook";
+import { Navbar } from "./compoments/Navbar";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,6 +25,9 @@ function App() {
     >
       <ToastContainer />
       <BrowserRouter>
+        <header>
+          <Navbar />
+        </header>
         <main>{routes}</main>
       </BrowserRouter>
     </AuthContext.Provider>
