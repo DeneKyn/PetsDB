@@ -8,6 +8,7 @@ import {
   MDBCheckbox,
 } from "mdb-react-ui-kit";
 import { EditModal } from "../compoments/EditModal.js";
+import { Loader } from "./Loader";
 
 export const AnimalsLinks = ({
   animals,
@@ -19,7 +20,7 @@ export const AnimalsLinks = ({
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [centredModal, setCentredModal] = useState(false);
   const { token } = useContext(AuthContext);
-  const { request } = useHttp();
+  const { request, loading } = useHttp();
 
   const editAnimalHandler = (animal) => {
     setSelectedAnimal(animal);
@@ -43,6 +44,8 @@ export const AnimalsLinks = ({
     } catch (e) {}
     fetchAnimals();
   };
+
+  if (loading) return <Loader />;
 
   return (
     <>
