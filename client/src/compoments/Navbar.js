@@ -63,7 +63,7 @@ export const Navbar = () => {
   return (
     <MDBNavbar expand="lg" light bgColor="light" className="ps-4 pe-4">
       <MDBContainer fluid>
-        <MDBNavbarBrand href="#">
+        <NavLink to="/" className="navbar-brand">
           <img
             src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.png"
             height="30"
@@ -71,7 +71,7 @@ export const Navbar = () => {
             loading="lazy"
           />
           Animals DataBase
-        </MDBNavbarBrand>
+        </NavLink>
 
         <MDBNavbarToggler
           type="button"
